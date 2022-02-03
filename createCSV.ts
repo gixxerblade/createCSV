@@ -6,7 +6,7 @@ import { SeedFactory, seedHeader } from './seeds';
 import { fertilizerHeader, FertilizerFactory } from './ferts';
 import { ChemicalFactory, chemicalHeader } from './chems';
 
-const data = [];
+let data = [];
 type TypesOfAnswers = {
   productToCreate: ProductType,
   recordsToCreate: number,
@@ -50,12 +50,10 @@ inquirer.prompt(questions).then((answers: TypesOfAnswers) => {
     path: productLookup[productToCreate].path,
     header: productLookup[productToCreate].header
   })
-  for (let i = 0; i < recordsToCreate; i++) {
-    const { cropType, cropSubType } = crops[Math.floor(Math.random() * crops.length)]
-    data.push(productToCreate === "Seed"
-      ? productLookup[productToCreate].data.build({ cropType, cropSubType })
-      : productLookup[productToCreate].data.build())
-  }
+  const { cropType, cropSubType } = crops[Math.floor(Math.random() * crops.length)]
+  data = productToCreate === "Seed"
+    ? productLookup[productToCreate].data.buildList(recordsToCreate, { cropType, cropSubType })
+    : productLookup[productToCreate].data.buildList(recordsToCreate)
   csvWriter.writeRecords(data)
     .then(() => {
       console.log(`The CSV file, ${__dirname}/${productLookup[productToCreate].path} was written successfully`);
