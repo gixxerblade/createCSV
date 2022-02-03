@@ -2,7 +2,7 @@ import faker from "@faker-js/faker"
 import { FertilizerChemicalShape, liquidUoM } from "./types"
 
 export const chemicalHeader = {
-  path: 'fertilizers.csv',
+  path: 'chemicals.csv',
   header: [
     { id: 'id', title: 'id' },
     { id: 'name', title: 'name' },
