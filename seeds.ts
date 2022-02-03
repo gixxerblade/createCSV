@@ -21,18 +21,25 @@ export const seedHeader = {
   ]
 }
 
-export const SeedFactory = new Factory().attrs({
-  id: '',
-  name: faker.lorem.slug(2),
-  skuName: faker.lorem.slug(2),
-  packageName: faker.lorem.slug(2),
-  packageUnitQuantity: faker.datatype.number({ min: 1, max: 5 }),
-  unitUoM: seedUoM[Math.floor(Math.random() * seedUoM.length)],
-  isActive: true,
-  seedsPerUnit: faker.datatype.number({ min: 10_000, max: 1_000_000 }),
-  lbsPerUnit: faker.datatype.number({ min: 10, max: 60 }),
-  unitPrice: faker.datatype.number({ min: 10, max: 60 }),
-  businessProductCategory: '',
-  // cropType: type,
-  // cropSubType: subType,
-})
+// export const SeedFactory = new Factory().attrs({
+export const SeedFactory = (len, cropType, cropSubType) => {
+  const seeds = []
+  for (let i = 0; i < len; i++) {
+      seeds.push({
+        id: faker.random.uuid(),
+        name: faker.commerce.productName(),
+        skuName: faker.commerce.productName(),
+        packageName: faker.commerce.productName(),
+        packageUnitQuantity: faker.random.number(),
+        unitUoM: seedUoM[faker.random.number(seedUoM.length - 1)],
+        isActive: faker.random.boolean(),
+        seedsPerUnit: faker.random.number(),
+        lbsPerUnit: faker.random.number(),
+        unitPrice: faker.random.number(),
+        businessProductCategory: faker.commerce.productName(),
+        cropType: faker.commerce.productName(),
+        cropSubType: faker.commerce.productName(),
+      })
+    }
+    return seeds
+  }

@@ -52,8 +52,9 @@ inquirer.prompt(questions).then((answers: TypesOfAnswers) => {
   })
   const { cropType, cropSubType } = crops[Math.floor(Math.random() * crops.length)]
   data = productToCreate === "Seed"
-    ? productLookup[productToCreate].data.buildList(recordsToCreate, { cropType, cropSubType })
+    ? productLookup[productToCreate].data(recordsToCreate, cropType, cropSubType)
     : productLookup[productToCreate].data.buildList(recordsToCreate)
+  console.log("data:", data)
   csvWriter.writeRecords(data)
     .then(() => {
       console.log(`The CSV file, ${__dirname}/${productLookup[productToCreate].path} was written successfully`);
