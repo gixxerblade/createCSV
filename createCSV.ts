@@ -51,17 +51,20 @@ inquirer.prompt(questions).then((answers: TypesOfAnswers) => {
     header: productLookup[productToCreate].header
   })
   const { cropType, cropSubType } = crops[Math.floor(Math.random() * crops.length)]
+  const seeds = { ...productLookup[productToCreate].data, ...{ cropType, cropSubType } }
+  const rest = productLookup[productToCreate].data
   data = productToCreate === "Seed"
-    ? productLookup[productToCreate].data.buildList(recordsToCreate, { cropType, cropSubType })
-    : productLookup[productToCreate].data.buildList(recordsToCreate)
+    ? productLookup[productToCreate].data(recordsToCreate, cropType, cropSubType)
+    : Array.from({ length: recordsToCreate }).fill(rest)
   csvWriter.writeRecords(data)
     .then(() => {
       console.log(`The CSV file, ${__dirname}/${productLookup[productToCreate].path} was written successfully`);
     }).catch((err: { isTtyError: any; }) => {
       if (err.isTtyError) {
-        console.log('Your enviroment is not supported at this time!')
+        console.log('Your enviroment is not supported at this time!');
       } else {
-        console.log('There was an error and we had to exit', err)
+        console.log('There was an error and we had to exit', err);
+        process.exit(1);
       }
     })
-})
+});

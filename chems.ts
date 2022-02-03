@@ -1,6 +1,5 @@
 import faker from "@faker-js/faker"
-import { Factory } from "rosie"
-import { liquidUoM } from "./types"
+import { FertilizerChemicalShape, liquidUoM } from "./types"
 
 export const chemicalHeader = {
   path: 'fertilizers.csv',
@@ -18,15 +17,21 @@ export const chemicalHeader = {
   ]
 }
 
-export const ChemicalFactory = new Factory().attrs({
-  id: '',
-  name: faker.lorem.slug(2),
-  skuName: faker.lorem.slug(2),
-  packageName: faker.lorem.slug(2),
-  packageUnitQuantity: faker.datatype.number({ min: 1, max: 10 }),
-  unitUoM: liquidUoM[Math.floor(Math.random() * liquidUoM.length)],
-  isActive: true,
-  formulation: 'LIQUID',
-  unitPrice: faker.commerce.price(),
-  businessProductCategory: '',
-})
+export const ChemicalFactory = (recordsToCreate: number) => {
+  const chemicals: FertilizerChemicalShape[] = []
+  for (let i = 0; i < recordsToCreate; i++) {
+    chemicals.push({
+      id: '',
+      name: faker.commerce.productName(),
+      skuName: faker.phone.phoneNumber('##########'),
+      packageName: faker.commerce.productName(),
+      packageUnitQuantity: faker.datatype.number({ min: 1, max: 10 }),
+      unitUoM: liquidUoM[Math.floor(Math.random() * liquidUoM.length)],
+      isActive: true,
+      formulation: 'LIQUID',
+      unitPrice: faker.commerce.price(10, 60, 2, ''),
+      businessProductCategory: '',
+    })
+  }
+  return chemicals
+}

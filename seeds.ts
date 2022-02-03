@@ -1,5 +1,4 @@
 import faker from "@faker-js/faker"
-import { Factory } from 'rosie'
 import { seedUoM } from "./types"
 
 export const seedHeader = {
@@ -21,18 +20,24 @@ export const seedHeader = {
   ]
 }
 
-export const SeedFactory = new Factory().attrs({
-  id: '',
-  name: faker.lorem.slug(2),
-  skuName: faker.lorem.slug(2),
-  packageName: faker.lorem.slug(2),
-  packageUnitQuantity: faker.datatype.number({ min: 1, max: 5 }),
-  unitUoM: seedUoM[Math.floor(Math.random() * seedUoM.length)],
-  isActive: true,
-  seedsPerUnit: faker.datatype.number({ min: 10_000, max: 1_000_000 }),
-  lbsPerUnit: faker.datatype.number({ min: 10, max: 60 }),
-  unitPrice: faker.datatype.number({ min: 10, max: 60 }),
-  businessProductCategory: '',
-  // cropType: type,
-  // cropSubType: subType,
-})
+export const SeedFactory = (recordsToCreate, cropType, cropSubType) => {
+  const seeds = [];
+  for (let i = 0; i < recordsToCreate; i++) {
+    seeds.push({
+        id: '',
+        name: faker.commerce.productName(),
+        skuName: faker.phone.phoneNumber('##########'),
+        packageName: faker.commerce.productName(),
+        packageUnitQuantity: faker.datatype.number({ min: 1, max: 5 }),
+        unitUoM: seedUoM[Math.floor(Math.random() * seedUoM.length)],
+        isActive: true,
+        seedsPerUnit: faker.datatype.number({ min: 10_000, max: 1_000_000 }),
+        lbsPerUnit: faker.datatype.number({ min: 10, max: 60 }),
+        unitPrice: faker.commerce.price(10, 60, 2, ''),
+        businessProductCategory: '',
+        cropType,
+        cropSubType,
+      });
+  }
+  return seeds;
+}

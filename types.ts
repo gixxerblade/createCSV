@@ -1,6 +1,19 @@
 
 export type ProductType = 'Seed' | 'Fertilizer' | 'Chemical'
 
+export interface FertilizerChemicalShape {
+  id: string,
+  name: string,
+  skuName: string,
+  packageName: string,
+  packageUnitQuantity: number,
+  unitUoM: string,
+  isActive: boolean,
+  formulation: string,
+  unitPrice: string,
+  businessProductCategory: string,
+}
+
 export const productTypes: ProductType[] = ['Seed', 'Fertilizer', 'Chemical']
 
 export const seedUoM = ['LB', 'BAG', 'BU']
