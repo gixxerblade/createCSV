@@ -37,8 +37,8 @@ export const SeedFactory = (len, cropType, cropSubType) => {
         lbsPerUnit: faker.random.number(),
         unitPrice: faker.random.number(),
         businessProductCategory: faker.commerce.productName(),
-        cropType: faker.commerce.productName(),
-        cropSubType: faker.commerce.productName(),
+        cropType, 
+        cropSubType,
       })
     }
     return seeds
