@@ -1,4 +1,5 @@
 import faker from "@faker-js/faker"
+import { crops } from "./cropTypes";
 import { seedUoM } from "./types"
 
 export const seedHeader = {
@@ -20,9 +21,10 @@ export const seedHeader = {
   ]
 }
 
-export const SeedFactory = (recordsToCreate, cropType, cropSubType) => {
+export const SeedFactory = (recordsToCreate) => {
   const seeds = [];
   for (let i = 0; i < recordsToCreate; i++) {
+    const { cropType, cropSubType } = crops[Math.floor(Math.random() * crops.length)]
     seeds.push({
         id: '',
         name: faker.commerce.productName(),
@@ -32,7 +34,9 @@ export const SeedFactory = (recordsToCreate, cropType, cropSubType) => {
         unitUoM: seedUoM[Math.floor(Math.random() * seedUoM.length)],
         isActive: true,
         seedsPerUnit: faker.datatype.number({ min: 10_000, max: 1_000_000 }),
-        lbsPerUnit: faker.datatype.number({ min: 10, max: 60 }),
+        get lbsPerUnit() {
+          return this.unitUoM === 'LB' ? 1 : faker.datatype.number({ min: 10, max: 60 })
+        },
         unitPrice: faker.commerce.price(10, 60, 2, ''),
         businessProductCategory: '',
         cropType,
